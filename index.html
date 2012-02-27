@@ -1,1 +1,81 @@
-Ceramedia.net
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Labs - Ceramedia</title>
+	<meta name="description" content="The alternative lightbox build on MooTools 1.4.">
+	<meta name="author" content="Ceramedia">
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Le styles -->
+	<link href="assets/css/bootstrap.css" rel="stylesheet" />
+	<style type="text/css">
+		body {
+			padding-top: 60px;
+			padding-bottom: 40px;
+		}
+	</style>
+	<link href="assets/css/bootstrap-responsive.css" rel="stylesheet" />
+	<link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+	<!-- Le fav and touch icons -->
+	<link rel="shortcut icon" href="assets/ico/favicon.ico" />
+	<link rel="apple-touch-icon" href="assets/ico/apple-touch-icon.png" />
+
+	<script src="https://ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
+	<script>
+		window.addEvent('domready',function(){
+
+			var requestRepos = new Request.JSON({
+				url: 'https://api.github.com/users/ceramedia/repos',
+				onSucces: function(response) {
+					console.log(response);
+				},
+				onError: function(text, error){
+					console.log(text, error);
+				},
+				onFailure: function(xhr){
+					console.log(xhr);
+				}
+			}).get();
+
+		});
+	</script>
+</head>
+
+<body>
+
+<div class="container">
+
+	<!-- Main hero unit for a primary marketing message or call to action -->
+	<div class="hero-unit">
+		<h1>Labs - Ceramedia</h1>
+		<p style="padding:10px 0;">
+			<a href="http://ceramedia.net">Ceramedia</a> is a (small) web design and development company located in Alkmaar, The Netherlands.
+			We like to share some of our work with the open-source community.
+			Hopefully this makes your developing life just a little bit easier, enjoy.
+		</p>
+	</div>
+
+
+
+	<hr/>
+
+	<footer>
+		<p>&copy; <a href="http://ceramedia.net">Ceramedia</a> 2012</p>
+	</footer>
+
+</div> <!-- /container -->
+
+<script src="assets/js/google-code-prettify/prettify.js"></script>
+<script>
+// make code pretty
+window.prettyPrint && prettyPrint()
+</script>
+
+</body>
+</html>
