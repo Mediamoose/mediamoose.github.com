@@ -18,6 +18,34 @@
 			padding-top: 60px;
 			padding-bottom: 40px;
 		}
+
+		#repos h3 { clear: left; }
+		#repos h3:before {
+			content: '\0020';
+			display: none;
+			float: left;
+			width: 10px;
+			height: 27px;
+			margin-right: 5px;
+		}
+		#repos h3:after {
+			content: '\0020';
+			font-weight: normal;
+			color: #999;
+			margin-left: 10px;
+			font-size: 12px;
+			font-style: italic;
+		}
+		/* JavaScript */
+		#repos .javascript h3:before { display: block; background: #F15501; }
+		#repos .javascript h3:after { content: 'JavaScript'; }
+		/* PHP */
+		#repos .php h3:before { display: block; background: #6E03C1; }
+		#repos .php h3:after { content: 'PHP'; }
+
+		#repos .description {
+			min-height: 54px;
+		}
 	</style>
 	<link href="assets/css/bootstrap-responsive.css" rel="stylesheet" />
 	<link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
@@ -26,22 +54,41 @@
 	<link rel="shortcut icon" href="assets/ico/favicon.ico" />
 	<link rel="apple-touch-icon" href="assets/ico/apple-touch-icon.png" />
 
-	<script src="https://ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
+	<script src="assets/js/mootools/mootools-core-1.4.5.js"></script>
 	<script>
 		window.addEvent('domready',function(){
 
-			var requestRepos = new Request.JSON({
+			var repoUrls = {
+				'CeraBox': 'http://ceramedia.github.com/CeraBox/'
+			};
+
+			var requestRepos = new Request.JSONP({
 				url: 'https://api.github.com/users/ceramedia/repos',
-				onSucces: function(response) {
-					console.log(response);
-				},
-				onError: function(text, error){
-					console.log(text, error);
-				},
-				onFailure: function(xhr){
-					console.log(xhr);
+				onSuccess: function(response) {
+					var rowWrapper = $('repos').empty();
+					var reposWrapper = null;
+
+					var i=0;
+					Array.each(response.data, function(data){
+						if (data.name=='ceramedia.github.com')
+							return;
+
+						if (i%3===0) {
+							reposWrapper = new Element('div',{'class':'row'});
+							rowWrapper.adopt(reposWrapper);
+						}
+
+						reposWrapper.adopt(
+							new Element('div',{'class':'span4'+(typeOf(data.language)=='string'?' '+data.language.toLowerCase():'')}).adopt([
+								new Element('h3',{text:data.name}),
+								new Element('p',{'class':'description','text':data.description}),
+								new Element('p').adopt(new Element('a',{'class':'btn','href':repoUrls[data.name]?repoUrls[data.name]:data.html_url,'html':'View details &raquo;'}))
+							])
+						);
+						++i;
+					});
 				}
-			}).get();
+			}).send();
 
 		});
 	</script>
@@ -59,9 +106,12 @@
 			We like to share some of our work with the open-source community.
 			Hopefully this makes your developing life just a little bit easier, enjoy.
 		</p>
+		<p>
+			<a href="https://github.com/ceramedia" class="btn btn-primary btn-large">Ceramedia on GitHub &raquo;</a>
+		</p>
 	</div>
 
-
+	<div id="repos"></div>
 
 	<hr/>
 
