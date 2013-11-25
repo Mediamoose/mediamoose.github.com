@@ -1,4 +1,4 @@
-Ceramedia Labs
+Mediamoose Labs
 ==========
 
-Open source projects build by Ceramedia.
+Open source projects build by Mediamoose.
